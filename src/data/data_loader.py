@@ -19,9 +19,28 @@ class DataLoader:
     
     def __init__(self, config_path: str = "config/config.yaml"):
         """Initialize DataLoader with configuration."""
-        with open(config_path, 'r') as f:
+        # Resolve config path relative to this file if needed
+        config_abs_path = os.path.abspath(config_path)
+        if not os.path.exists(config_abs_path):
+            raise FileNotFoundError(f"Config file not found: {config_abs_path}")
+
+        with open(config_abs_path, 'r') as f:
             self.config = yaml.safe_load(f)
-        
+
+        # Base directory of the config file (e.g., ./config)
+        config_dir = os.path.dirname(config_abs_path)
+
+        # Resolve data paths relative to config file location
+        raw_path = self.config['data']['raw_path']
+        self.config['data']['raw_path'] = os.path.join(config_dir, raw_path)
+
+        processed_path = self.config['data']['processed_path']
+        self.config['data']['processed_path'] = os.path.join(config_dir, processed_path)
+
+        # Optional: normalize path (handles ../ correctly)
+        self.config['data']['raw_path'] = os.path.normpath(self.config['data']['raw_path'])
+        self.config['data']['processed_path'] = os.path.normpath(self.config['data']['processed_path'])
+
         self.scaler = None
         self._setup_scaler()
     

@@ -1,2 +1,3 @@
 .env
 /src/data/raw/creditcard.csv
+*__pycache__
