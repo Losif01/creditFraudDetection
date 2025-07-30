@@ -1,5 +1,5 @@
-# # src/monitoring/tensorboard_logger.py
-# # this uses observer pattern
+# src/monitoring/tensorboard_logger.py
+# this uses observer pattern
 # from tensorflow.keras.callbacks import TensorBoard
 # import datetime
 
