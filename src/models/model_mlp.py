@@ -4,7 +4,7 @@ Multi-Layer Perceptron (Neural Network) model for credit card fraud detection.
 import pandas as pd
 import numpy as np
 from sklearn.neural_network import MLPClassifier
-from base_model import BaseModel
+from .base_model import BaseModel
 from typing import Dict, Any
 import logging
 

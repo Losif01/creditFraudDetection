@@ -2,10 +2,10 @@
 Factory pattern for creating machine learning models.
 """
 from typing import Dict, Any
-from base_model import BaseModel
-from model_logistic import LogisticRegressionModel
-from model_xgb import XGBoostModel
-from model_mlp import MLPModel
+from .base_model import BaseModel
+from .model_logistic import LogisticRegressionModel
+from .model_xgb import XGBoostModel
+from .model_mlp import MLPModel
 import logging
 
 logger = logging.getLogger(__name__)

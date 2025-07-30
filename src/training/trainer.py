@@ -8,21 +8,39 @@ from sklearn.model_selection import GridSearchCV
 import logging
 import os
 import yaml
-
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
 from ..models.model_factory import ModelFactory
 from ..models.base_model import BaseModel
 from .evaluation import ModelEvaluator
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
 class ModelTrainer:
     """Handles training, hyperparameter tuning, and evaluation of models."""
-    
+
     def __init__(self, config_path: str = "config/config.yaml"):
         """Initialize trainer with configuration."""
-        with open(config_path, 'r') as f:
+        # Get the project root (assuming this file is in src/training/)
+        project_root = Path(__file__).parent.parent.parent  # → project root
+
+        # Resolve the config path relative to project root
+        config_file = (project_root / config_path).resolve()
+
+        # Debug: print paths to verify
+        print(f"Project root: {project_root}")
+        print(f"Looking for config at: {config_file}")
+
+        if not config_file.exists():
+            raise FileNotFoundError(f"Config file not found: {config_file}")
+
+        with open(config_file, 'r') as f:
             self.config = yaml.safe_load(f)
-        
+
         self.evaluator = ModelEvaluator(self.config)
         self.trained_models = {}
         self.evaluation_results = {}
@@ -147,45 +165,42 @@ class ModelTrainer:
         return optimized_model, results
     
     def train_with_kfold_comparison(self, X: pd.DataFrame, y: pd.Series) -> pd.DataFrame:
-        """Train models using K-fold cross-validation as shown in notebook."""
-        from sklearn.neighbors import KNeighborsClassifier
-        from sklearn.svm import SVC
-        from sklearn.tree import DecisionTreeClassifier
-        from sklearn.linear_model import LogisticRegression
-        from xgboost import XGBClassifier
-        
-        # Define classifiers as in the notebook
+        """Train models using K-fold cross-validation."""
         classifiers = {
             "LogisticRegression": LogisticRegression(),
             "KNearest": KNeighborsClassifier(),
             "Support Vector Classifier": SVC(),
             "DecisionTreeClassifier": DecisionTreeClassifier(),
-            'XGBClassifier': XGBClassifier()
+            "XGBClassifier": XGBClassifier()
         }
-        
+
         results = []
-        
         for name, classifier in classifiers.items():
             try:
+                # ✅ Just wrap the sklearn model directly with a .model attribute
+                model_wrapper = type('ModelWrapper', (), {'model': classifier})()
+
                 cv_results = self.evaluator.cross_validate_model(
-                    type('temp', (), {'model': classifier, 'model_name': name, 'build_model': lambda: classifier})(),
-                    X, y
+                    model=model_wrapper,
+                    X=X,
+                    y=y
                 )
-                
                 results.append({
                     'model': name,
                     'cv_score': cv_results['cv_mean'],
                     'cv_std': cv_results['cv_std']
                 })
-                
                 logger.info(f"{name}: {cv_results['cv_mean']:.4f} (±{cv_results['cv_std']:.4f})")
-                
             except Exception as e:
                 logger.error(f"Error training {name}: {str(e)}")
-        
+
+        # Handle empty results
+        if not results:
+            logger.warning("No models were successfully evaluated.")
+            return pd.DataFrame(columns=['model', 'cv_score', 'cv_std'])
+
         results_df = pd.DataFrame(results)
-        results_df = results_df.sort_values('cv_score', ascending=False)
-        
+        results_df = results_df.sort_values('cv_score', ascending=False).reset_index(drop=True)
         return results_df
     
     def train_ensemble_models(self, X: pd.DataFrame, y: pd.Series) -> pd.DataFrame:

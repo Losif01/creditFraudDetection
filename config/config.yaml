@@ -1,7 +1,7 @@
 # Main configuration file for credit fraud detection
 data:
-  raw_path: "src/data/raw/creditcard.csv"
-  processed_path: "src/data/processed/"
+  raw_path: "../src/data/raw/creditcard.csv"
+  processed_path: "../src/data/processed/"
   test_size: 0.2
   random_state: 42
   stratify: true
