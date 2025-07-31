@@ -1,16 +1,25 @@
 import streamlit as st
-from PIL import Image
 import base64
+from pathlib import Path
 
+# Get the directory where this script (Home.py) is located
+current_dir = Path(__file__).parent
+
+# Build the path to the image relative to this script
+image_path = current_dir / "3-Credit-Card-Fraud-Detection.png"
+
+# Read and encode the image
+with open(image_path, "rb") as img_file:
+    encoded_image = base64.b64encode(img_file.read()).decode()
+
+# Display the image centered
 st.markdown("## 💳 Credit Card Fraud Detection")
 st.markdown(
     """
     <div style='text-align: center;'>
         <img src='data:image/png;base64,{}' width='60%' />
     </div>
-    """.format(
-        base64.b64encode(open(r'D:\course\Courses\30 days\supervised\creditFraudDetection\frontend\pages\3-Credit-Card-Fraud-Detection.png', "rb").read()).decode()
-    ),
+    """.format(encoded_image),
     unsafe_allow_html=True
 )
 st.markdown("### Project Overview")

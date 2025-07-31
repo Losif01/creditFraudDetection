@@ -9,8 +9,32 @@ import logging
 logger = logging.getLogger(__name__)
 import sys
 import os
+from pathlib import Path
 
-df=pd.read_csv(r'D:\course\Courses\30 days\supervised\creditFraudDetection\src\data\raw\creditcard.csv')
+current_dir = Path(__file__).parent  # frontend/pages/
+frontend_dir = current_dir.parent    # frontend/
+root_dir = frontend_dir.parent       # project root
+
+# Path to raw data
+data_path = root_dir / "src" / "data" / "raw" / "creditcard.csv"
+
+# Read the dataset
+try:
+    df = pd.read_csv(data_path)
+except FileNotFoundError:
+    st.error(f"Dataset not found at {data_path.resolve()}")
+    st.stop()
+except Exception as e:
+    st.error(f"Error loading dataset: {e}")
+    st.stop()
+
+# Helper function to load image
+def load_image(image_name):
+    img_path = current_dir / image_name
+    if not img_path.exists():
+        st.warning(f"Image not found: {img_path.resolve()}")
+        return None
+    return str(img_path)
 
 st.markdown("""
        ###  Steps of (EDA)""")
@@ -192,7 +216,7 @@ Only 0.17% fraudulent transaction out all the transactions. The data is highly U
     st.markdown("""##### Transaction Amount vs Time (with Class)
                 
                 """)
-    st.image(r'D:\course\Courses\30 days\supervised\creditFraudDetection\frontend\pages\output.png')
+    st.image(load_image("output.png"))
     
     st.markdown("""
                 
@@ -211,7 +235,7 @@ Only 0.17% fraudulent transaction out all the transactions. The data is highly U
     st.markdown("""##### Transaction Amount over Time 
                 
                 """)
-    st.image(r'D:\course\Courses\30 days\supervised\creditFraudDetection\frontend\pages\time and amount transaction.png')
+    st.image(load_image('time and amount transaction.png'))
     st.markdown("""
             
             
@@ -234,7 +258,7 @@ Only 0.17% fraudulent transaction out all the transactions. The data is highly U
     st.markdown("""##### Correlation Heatmap
             
             """)
-    st.image(r'D:\course\Courses\30 days\supervised\creditFraudDetection\frontend\pages\correlation.png')
+    st.image(load_image('correlation.png'))
 
     st.markdown("""
                 
@@ -249,7 +273,7 @@ Only 0.17% fraudulent transaction out all the transactions. The data is highly U
                 """)
     
     st.markdown("""##### Positive Correlation Insights  """)
-    st.image(r'D:\course\Courses\30 days\supervised\creditFraudDetection\frontend\pages\postive correlation.png')
+    st.image(load_image('postive correlation.png'))
     st.markdown("""
                 
                 
@@ -272,7 +296,7 @@ Only 0.17% fraudulent transaction out all the transactions. The data is highly U
 
     
     st.markdown("""##### Negative  Correlation Insights  """)
-    st.image(r'D:\course\Courses\30 days\supervised\creditFraudDetection\frontend\pages\negative correlation.png')
+    st.image(load_image('negative correlation.png'))
     st.markdown("""
                 
            
@@ -292,30 +316,5 @@ Only 0.17% fraudulent transaction out all the transactions. The data is highly U
                 """)
     
     st.markdown('#### Features Most Strongly Related to Fraud')
-    st.image(r'D:\course\Courses\30 days\supervised\creditFraudDetection\frontend\pages\Features Most Strongly Related to Fraud.png')
+    st.image(load_image('Features Most Strongly Related to Fraud.png'))
     
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-    
-
-        
-
-     
-     
-     
-     
-
-
-
-
