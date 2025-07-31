@@ -19,7 +19,7 @@ with st.expander("📌 Model Description"):
     """)
 
 # ---- Section 2: Load model
-model = joblib.load("model/xgb_model.pkl")  # adjust path if needed
+model = joblib.load("src/model/xgb_model.pkl")  # adjust path if needed
 
 # ---- Section 3: User Input
 st.subheader("🧾 Enter Transaction Details")
