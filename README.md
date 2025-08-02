@@ -1,7 +1,7 @@
 # Credit Card Fraud Detection
 
 [View on GitHub](https://github.com/HendRamadan1/creditFraudDetection)
-
+or
 [try the cool GUI on streamlit here](https://creditfrauddetectioner.streamlit.app/)
 
 A machine learning project that detects fraudulent credit card transactions using various classification algorithms. This project includes a clean, interactive GUI built with [Streamlit](https://streamlit.io/) to make it accessible for both technical and non-technical stakeholders.
