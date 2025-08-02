@@ -74,21 +74,89 @@ This will launch the Streamlit app in your browser.
 ## Project Structure
 
 ```markdown
-creditFraudDetection/
-│
-├── app.py
-├── model.py
-├── utils.py
-├── requirements.txt
+.
+├── api     # backend fast API
+│   ├── `__init__`.py
+│   ├── main.py
+│   ├── routes
+│   │   ├── `__init__`.py
+│   │   └── predict.py
+│   └── schemas
+│       ├── `__init__`.py
+│       └── request_schemas.py
+├── config
+│   ├── config.yaml
+│   └── `__init__`.py
+├── frontend    # GUI files
+│   ├── app.py
+│   ├── pages
+│   │   ├── 3-Credit-Card-Fraud-Detection.png
+│   │   ├── correlation.png
+│   │   ├── EDA.py
+│   │   ├── Features Most Strongly Related to Fraud.png
+│   │   ├── Home.py
+│   │   ├── `__init__`.py
+│   │   ├── Model.py
+│   │   ├── negative correlation.png
+│   │   ├── newplot.png
+│   │   ├── output.png
+│   │   ├── postive correlation.png
+│   │   ├── SWE.py
+│   │   └── time and amount transaction.png
+│   └── utils.py
+├── notebooks 
+│   ├── demonstration_for_clean_code.ipynb
+│   ├── evaluation_results.json
+│   └── exploratory_data_analysis.ipynb
 ├── README.md
-├── data/
-│   └── creditcard.csv
-├── images/
-│   └── confusion_matrix.png
-├── notebooks/
-│   └── EDA.ipynb
-├── saved_models/
-│   └── best_model.pkl
+├── requirements.txt
+├── saved_models
+│   └── saved
+│       ├── decision_tree.pkl
+│       ├── gradient_boosting.pkl
+│       ├── logistic_regression.pkl
+│       ├── mlp.pkl
+│       ├── random_forest.pkl
+│       ├── svm.pkl
+│       └── xgboost.pkl
+├── scripts
+│   ├── serve.py
+│   └── train.py
+├── setup.py
+├── src
+│   ├── data 
+│   │   ├── data_loader.py
+│   │   ├── `__init__`.py
+│   │   ├── processed
+│   │   │   ├── X_test.csv
+│   │   │   ├── X_train.csv
+│   │   │   ├── y_test.csv
+│   │   │   └── y_train.csv
+│   │   └── raw
+│   │       └── creditcard.csv
+│   ├── `__init__`.py
+│   ├── models      # most important section 
+│   │   ├── base_model.py
+│   │   ├── `__init__`.py
+│   │   ├── model_factory.py
+│   │   ├── model_logistic.py
+│   │   ├── model_mlp.py
+│   │   └── model_xgb.py
+│   ├── training
+│   │   ├── evaluation.py
+│   │   ├── `__init__`.py
+│   │   └── trainer.py
+│   └── utils
+│       ├── helpers.py
+│       ├── `__init__`.py
+│       └── logger.py
+└── tests
+    ├── conftest.py
+    ├── `__init__`.py
+    ├── test_data.py
+    └── test_models.py
+
+19 directories, 62 files
 ```
 
 * `data/`: Raw dataset used for training and testing models

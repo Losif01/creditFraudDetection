@@ -5,8 +5,8 @@ st.set_page_config(page_title='My App',layout="wide")
 
 selected = option_menu(
     menu_title=None,
-    options=["Home", "EDA", "Model"],
-    icons=["house-lock", "bar-chart-line-fill", "robot"],
+    options=["Home", "EDA", "Model", "Software Engineering"],
+    icons=["house-lock", "bar-chart-line-fill", "robot", "book"],
     orientation="horizontal",
     default_index=0,
     key='top_menu',
@@ -37,9 +37,16 @@ elif selected == "EDA":
     
 
 elif selected == "Model":
-    TransformerModel = st.Page("pages/Model.py", title="Transformer Model", icon="🤖")
-    pg = st.navigation([TransformerModel])
+    Models = st.Page("pages/Model.py", title="Models", icon="🤖")
+    pg = st.navigation([Models])
     pg.run()
+
+elif selected == "Software Engineering":
+    Swe = st.Page("pages/SWE.py", title="Models", icon="📘")
+    pg = st.navigation([Swe])
+    pg.run()
+
+
     
 
 
