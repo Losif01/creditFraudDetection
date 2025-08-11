@@ -162,7 +162,6 @@ This will launch the Streamlit app in your browser.
 ```
 
 * `data/`: Raw dataset used for training and testing models
-* `images/`: Output images like evaluation plots (e.g., confusion matrix)
 * `notebooks/`: Exploratory and preprocessing work in Jupyter Notebook
 * `saved_models/`: Serialized model files for deployment
 * `app.py`: Streamlit GUI app
