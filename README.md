@@ -7,6 +7,11 @@ or
 A machine learning project that detects fraudulent credit card transactions using various classification algorithms. This project includes a clean, interactive GUI built with [Streamlit](https://streamlit.io/) to make it accessible for both technical and non-technical stakeholders.
 
 ---
+## Video 
+
+
+https://github.com/user-attachments/assets/ca9311d6-3aa3-4970-96ae-6b2effead732
+
 
 ## Description
 
